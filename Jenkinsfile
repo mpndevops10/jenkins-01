@@ -28,12 +28,10 @@ pipeline {
       }
     }
     stage('5-deploy-to-tomcat') {
-    steps {
-        withEnv(['WAR_FILE_PATH=~/workspace/maven-build/MavenEnterpriseApp-web/target/MavenEnterpriseApplication.war']) {
+        steps {
+            withEnv(['WAR_FILE_PATH=~/workspace/maven-build/MavenEnterpriseApp-web/target/MavenEnterpriseApplication.war']) {
             sshagent(['tomcat']) {
-                sh """
-                scp -o StrictHostKeyChecking=no ${WAR_FILE_PATH} ubuntu@3.21.102.135:/opt/tomcat/apache-tomcat-9.0.93/webapps
-                """
+              sh """scp -o StrictHostKeyChecking=no ${WAR_FILE_PATH} ubuntu@3.145.8.116:/opt/tomcat/apache-tomcat-9.0.93/webapps"""
             }
         }
     }
