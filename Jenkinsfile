@@ -7,7 +7,6 @@ pipeline {
     stage('1-cloning project repo'){
       steps{
         checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'github', url: 'https://github.com/mpndevops10/jenkins-01.git']])
-        sh 'cd jenkins-01/MavenEnterpriseApp-web'
       }
     }
     stage('2-cleanws'){
