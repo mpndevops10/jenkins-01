@@ -7,6 +7,7 @@ pipeline {
     stage('1-cloning project repo'){
       steps{
         checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'github', url: 'https://github.com/mpndevops10/jenkins-01.git']])
+        sh 'cd jenkins-01/MavenEnterpriseApp-web'
       }
     }
     stage('2-cleanws'){
@@ -23,15 +24,15 @@ pipeline {
         steps{
        sh "mvn clean verify sonar:sonar \
   -Dsonar.projectKey=team10 \
-  -Dsonar.host.url=http://18.220.33.167:9000 \
-  -Dsonar.login=sqp_2768810549e4e13a8da045f22af0a44837852f3f"
+  -Dsonar.host.url=http://18.222.84.91:9000 \
+  -Dsonar.login=ssqp_16517fe8f80ef63a69b758bfee435cf562cdb283"
       }
     }
     stage('5-deploy-to-tomcat') {
         steps {
             withEnv(['WAR_FILE_PATH=~/workspace/maven-build/MavenEnterpriseApp-web/target/MavenEnterpriseApplication.war']) {
             sshagent(['tomcat']) {
-              sh """scp -o StrictHostKeyChecking=no ${WAR_FILE_PATH} ubuntu@3.145.8.116:/opt/tomcat/apache-tomcat-9.0.93/webapps"""
+              sh """scp -o StrictHostKeyChecking=no ${WAR_FILE_PATH} ubuntu@18.218.13.227:/opt/tomcat/apache-tomcat-9.0.93/webapps"""
             }
         }
     }
